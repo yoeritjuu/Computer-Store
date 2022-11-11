@@ -1,9 +1,7 @@
 package parts
 
 import (
-	"html/template"
 	"log"
-	"os"
 	"strconv"
 )
 
@@ -34,11 +32,4 @@ func GetAllParts(data [][]string) []Part {
 		}
 	}
 	return partsList
-}
-
-func ReturnHTML(parts []Part) {
-	t := template.Must(template.ParseFiles("shoptemplate.html"))
-	if err := t.Execute(os.Stdout, parts); err != nil {
-		log.Fatal(err)
-	}
 }

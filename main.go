@@ -1,34 +1,12 @@
 package main
 
 import (
-	"encoding/csv"
-	"log"
-	"os"
+	"net/http"
 
-	"github.com/yoeritjuu/Computer-Store/pkg/parts"
+	"github.com/yoeritjuu/Computer-Store/pkg/handlers"
 )
 
 func main() {
-	f, err := os.Open("computer_parts.csv")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer f.Close()
-
-	csvReader := csv.NewReader(f)
-	data, err := csvReader.ReadAll()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	partsList := parts.GetAllParts(data)
-
-	parts.ReturnHTML(partsList)
-
-	// jsonData, err := json.MarshalIndent(partsList, "", "  ")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
-	// fmt.Println(string(jsonData))
+	http.HandleFunc("/", handlers.GetPartsHandler)
+	http.ListenAndServe("localhost:8000", nil)
 }
