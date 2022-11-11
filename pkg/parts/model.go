@@ -5,5 +5,6 @@ type Part struct {
 	Description string
 	Brand       string
 	Color       string
-	Price       float32
+	Price       float64
+	NoTaxPrice  float64
 }

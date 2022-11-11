@@ -79,13 +79,13 @@ var htmlTemplate = `
 <h1>Parts in WebStore</h1>
 <table id="fancytable" class="display">
 	<col width="35%">
-    <col width="65%">
 	<tr>
 		<th>ID</th>
 		<th>Description</th>
 		<th>Brand</th>
 		<th>Color</th>      
 		<th>Price (€)<th>
+		<th>Price without tax (€)<th>
 	</tr>
 	
 	{{range .}}
