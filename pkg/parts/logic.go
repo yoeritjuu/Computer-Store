@@ -7,6 +7,16 @@ import (
 	"strconv"
 )
 
+type partService struct {
+	partRepository PartsRepository
+}
+
+func NewPartService(u PartsRepository) PartsService {
+	return &partService{
+		partRepository: u,
+	}
+}
+
 func GetAllParts(data [][]string) []Part {
 	// convert csv lines to array of structs
 	var partsList []Part

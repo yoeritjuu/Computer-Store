@@ -1,7 +1,17 @@
 package repository
 
-import "github.com/yoeritjuu/Computer-Store/pkg/parts"
+import (
+	"database/sql"
 
-func AddToCsv(part parts.Part) {
+	"github.com/yoeritjuu/Computer-Store/pkg/parts"
+)
 
+type partsRepository struct {
+	db *sql.DB
+}
+
+func NewPartsRepository(sql *sql.DB) parts.PartsRepository {
+	return &partsRepository{
+		db: sql,
+	}
 }

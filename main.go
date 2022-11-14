@@ -1,14 +1,21 @@
 package main
 
 import (
-	"net/http"
+	"log"
 
 	"github.com/joho/godotenv"
+	"github.com/yoeritjuu/Computer-Store/pkg/config"
 	"github.com/yoeritjuu/Computer-Store/pkg/handlers"
+	"github.com/yoeritjuu/Computer-Store/pkg/repository"
 )
 
 func main() {
 	godotenv.Load()
-	http.HandleFunc("/", handlers.GetPartsHandler)
-	http.ListenAndServe("localhost:8000", nil)
+	config := config.LoadSqlConfig()
+	sql, err := repository.ConnectMySQL(config)
+	if err != nil {
+		log.Fatalf("cant connect to mysql database, err is: %s", err.Error())
+	}
+	server := handlers.NewServer(config, sql)
+	server.Run()
 }
