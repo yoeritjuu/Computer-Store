@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script type="text/javascript" charset="utf8"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+</head>
+
+<body>
+    <table id="fancytable" class="display">
+        <col width="35%">
+        <tr>
+            <th>Id</th>
+            <th>Description</th>
+            <th>Brand</th>
+            <th>Color</th>
+            <th>Price (€)</th>
+            <th>NoTaxPrice (€)</th>
+        </tr>
+        {{ range .Items}}
+        <tr>
+            <td>{{ .ID }}</td>
+            <td>{{ .Description }}</td>
+            <td>{{ .Brand }}</td>
+            <td>{{ .Color }}</td>
+            <td>{{ .Price }}</td>
+            <td>{{ .NoTaxPrice }}</td>
+        </tr>
+        {{ end}}
+    </table>
+</body>
+<script>
+    $(document).ready(function () {
+        $('#fancytable').DataTable();
+    });
+</script>
+
+</html>

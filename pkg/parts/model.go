@@ -1,5 +1,9 @@
 package parts
 
+type Data struct {
+	Items []Part
+}
+
 type Part struct {
 	ID          string
 	Description string
