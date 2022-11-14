@@ -18,40 +18,18 @@ func NewPartService(u PartsRepository) PartsService {
 }
 
 func (s *partService) GetAllParts() ([]Part, error) {
+	var partsWithTax []Part
 	list, err := s.partRepository.GetParts()
 	if err != nil {
 		log.Panic(err)
 	}
 
-	// // convert csv lines to array of structs
-	// var partsList []Part
-	// for i, line := range data {
-	// 	if i > 0 { // omit header line
-	// 		var rec Part
-	// 		for j, field := range line {
-	// 			if j == 0 {
-	// 				rec.ID = field
-	// 			} else if j == 1 {
-	// 				rec.Description = field
-	// 			} else if j == 2 {
-	// 				rec.Brand = field
-	// 			} else if j == 3 {
-	// 				rec.Color = field
-	// 			} else if j == 4 {
-	// 				float, err := strconv.ParseFloat(field, 64)
-	// 				if err != nil {
-	// 					log.Panic(err)
-	// 				}
-	// 				rec.NoTaxPrice = float
-	// 				rec.Price = AddTax(float)
-	// 			}
-	// 		}
-	// 		partsList = append(partsList, rec)
-	// 	}
-	// }
-	// return partsList
+	for _, part := range list {
+		part.Price = AddTax(part.NoTaxPrice)
+		partsWithTax = append(partsWithTax, part)
+	}
 
-	return list, nil
+	return partsWithTax, nil
 }
 
 func AddTax(rawPrice float64) float64 {

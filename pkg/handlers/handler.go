@@ -1,50 +1,32 @@
 package handlers
 
 import (
-	"encoding/csv"
-	"log"
 	"net/http"
-	"os"
 	"reflect"
 	"text/template"
 
 	"github.com/yoeritjuu/Computer-Store/pkg/parts"
 )
 
-type Node struct {
-	Contact_id  int
-	Employer_id int
-	First_name  string
-	Middle_name string
-	Last_name   string
-}
-
 var templateFuncs = template.FuncMap{"rangeStruct": RangeStructer}
 
-func GetPartsHandler(w http.ResponseWriter, r *http.Request) {
-	f, err := os.Open("computer_parts.csv")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer f.Close()
+func GetPartsHandler(service parts.PartsService) func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		partsList, err := service.GetAllParts()
+		if err != nil {
+			panic(err)
+		}
 
-	csvReader := csv.NewReader(f)
-	data, err := csvReader.ReadAll()
-	if err != nil {
-		log.Fatal(err)
-	}
+		t := template.New("t").Funcs(templateFuncs)
+		t, err = t.Parse(htmlTemplate)
+		if err != nil {
+			panic(err)
+		}
 
-	partsList := parts.GetAllParts(data)
-
-	t := template.New("t").Funcs(templateFuncs)
-	t, err = t.Parse(htmlTemplate)
-	if err != nil {
-		panic(err)
-	}
-
-	err = t.Execute(w, partsList)
-	if err != nil {
-		panic(err)
+		err = t.Execute(w, partsList)
+		if err != nil {
+			panic(err)
+		}
 	}
 }
 
@@ -69,7 +51,7 @@ func RangeStructer(args ...interface{}) []interface{} {
 	return out
 }
 
-var htmlTemplate = `
+const htmlTemplate = `
 <head>
     <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.css">

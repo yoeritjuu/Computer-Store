@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/yoeritjuu/Computer-Store/pkg/config"
 )
 

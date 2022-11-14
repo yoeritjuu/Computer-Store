@@ -30,6 +30,6 @@ func NewServer(cfg config.MySQLConfig, sql *sql.DB) *Server {
 }
 
 func (s *Server) Run() {
-	http.HandleFunc("/", GetPartsHandler)
+	http.HandleFunc("/", GetPartsHandler(s.logic))
 	http.ListenAndServe("localhost:8000", nil)
 }

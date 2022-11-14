@@ -38,7 +38,7 @@ func LoadSqlConfig() MySQLConfig {
 		log.Fatalf("cant convert port env")
 	}
 	return MySQLConfig{
-		Username:        os.Getenv("MYSQL_DATABASE"),
+		Username:        os.Getenv("MYSQL_USERNAME"),
 		Password:        os.Getenv("MYSQL_PASSWORD"),
 		Host:            os.Getenv("MYSQL_HOST"),
 		Port:            port,
